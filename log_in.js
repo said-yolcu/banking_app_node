@@ -1,30 +1,20 @@
 import * as http from "http"
+import * as cookie from "cookie"
 
 
 function send_request(par_list) {
-    let [name, surname, state_id, email, phone, password, balance] = par_list
+    let [state_id, password] = par_list
 
-    // POST    http://localhost:8000/user/sign_up
-
+    //     POST   http://localhost:8000/user/log_in
     // {
-    //     "name": "Mahmut",
-    //     "surname":"Atlı",
     //     "state_id": "12312312312",
-    //     "email":"mahmut.atli@gmail.com",
-    //     "phone":"05455454544",
-    //     "password": "vaveyla2",
-    //     "balance":1000
+    //     "password": "vaveyla2"
     // }
 
     // Data to be posted
     let post_data = JSON.stringify({
-        "name": name,
-        "surname": surname,
         "state_id": state_id,
-        "email": email,
-        "phone": phone,
-        "password": password,
-        "balance": parseInt(balance)
+        "password": password
     })
 
     // Create request json
@@ -32,7 +22,7 @@ function send_request(par_list) {
         "method": "POST",
         "hostname": "localhost",
         "port": 8000,
-        "path": "/user/sign_up",
+        "path": "/user/log_in",
         "headers": {
             "content-type": "application/json",
             "content-length": Buffer.byteLength(post_data)
@@ -46,24 +36,28 @@ function send_request(par_list) {
 
             res.on("data", () => { })
 
-            console.log('signup 47')
+            console.log('login 47')
             res.on('end', () => {
 
 
-                console.log('signup 51')
+                console.log('login 51')
                 // Check if the response is successful
-                if (res.statusCode === 201) {
+                if (res.statusCode === 200) {
                     console.log("User is created successfully")
-                    resolve(res.statusCode)
+                    let cookie = res.headers["set-cookie"]
+                    console.log(res.headers)
+                    resolve([res.statusCode, cookie])
                 } else {
                     console.log("Returned with status code", res.statusCode)
-                    resolve(res.statusCode)
+                    resolve([res.statusCode, null])
                 }
 
-                console.log('signup 61')
+                console.log('login 61')
+
             })
 
-            console.log('signup 64')
+
+            console.log('login 64')
 
             res.on('error', e => {
                 console.log('Exchange service error')
@@ -71,12 +65,12 @@ function send_request(par_list) {
             })
         })
 
-        console.log('signup 72')
+        console.log('login 72')
 
         // Write the request body
         req.write(post_data)
 
-        console.log('signup 77')
+        console.log('login 77')
         // End the request
         req.end()
 
