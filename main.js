@@ -3,6 +3,7 @@ import log_in from './log_in.js'
 import my_transactions from './my_transactions.js'
 
 import rl from 'readline-promise'
+import make_transaction from './make_transaction.js'
 const readline = rl.default
 const read_line = readline.createInterface({
     input: process.stdin,
@@ -114,7 +115,7 @@ async function serve(service) {
 
                 if (statusCode === 200) {
                     globalCookie = cookie
-                    console.log("Writing cookie: ", globalCookie, " : Wrote cookie")
+                    // console.log("Writing cookie: ", globalCookie, " : Wrote cookie")
                 }
 
                 return statusCode
@@ -161,6 +162,12 @@ async function serve(service) {
 
         // Make a new transaction
         case "maketransaction": {
+
+            // Enter User id, other user id,  Balance
+            let user_id = await enter_input("Enter your user_id: ")
+            let other_id = await enter_input("Enter other account's user id: ")
+            let balance = await enter_input("Enter the amount you want to transfer: ")
+
             let phraseArray = [
                 "Status code: 200", // 200
                 "Successfully made a new transaction", // 201
@@ -180,8 +187,8 @@ async function serve(service) {
                 return statusCode
             }
 
-            my_transactions
-                .send_request(globalCookie)
+            make_transaction
+                .send_request([user_id, other_id, balance],globalCookie)
                 //.then(print_transactions)
                 .then(response_processer(phraseArray))
                 .then(registration_page)
@@ -209,7 +216,7 @@ function want_to_quit(word) {
 // This function is used to direct to user either to sign-up or log-in
 function registration_page() {
     read_line.question('What would you like to do?\n\
-Write one of these: log in, sign up, see my transactions\n\
+Write one of these: log in, sign up, see my transactions, make transaction\n\
 If you want to quit, type quit any time ', serve)
 }
 

@@ -5,12 +5,6 @@ import * as cookie from "cookie"
 function send_request(par_list) {
     let [state_id, password] = par_list
 
-    //     POST   http://localhost:8000/user/log_in
-    // {
-    //     "state_id": "12312312312",
-    //     "password": "vaveyla2"
-    // }
-
     // Data to be posted
     let post_data = JSON.stringify({
         "state_id": state_id,
@@ -31,50 +25,50 @@ function send_request(par_list) {
 
     // Make the request in a promise
     return new Promise((resolve, reject) => {
-        console.log('Making a new request')
+        console.log('% Making a new request')
         var req = http.request(options, res => {
 
             res.on("data", () => { })
 
-            console.log('login 47')
+            // console.log('login 47')
             res.on('end', () => {
 
 
-                console.log('login 51')
+                // console.log('login 51')
                 // Check if the response is successful
                 if (res.statusCode === 200) {
-                    console.log("User is created successfully")
+                    console.log("% You have logged in successfully")
                     let cookie = res.headers["set-cookie"]
-                    console.log(res.headers)
+                    // console.log(res.headers)
                     resolve([res.statusCode, cookie])
                 } else {
-                    console.log("Returned with status code", res.statusCode)
+                    console.log("% Returned with status code", res.statusCode)
                     resolve([res.statusCode, null])
                 }
 
-                console.log('login 61')
+                // console.log('login 61')
 
             })
 
 
-            console.log('login 64')
+            // console.log('login 64')
 
             res.on('error', e => {
-                console.log('Exchange service error')
+                console.log('% Log-in service error')
                 reject(e)
             })
         })
 
-        console.log('login 72')
+        // console.log('login 72')
 
         // Write the request body
         req.write(post_data)
 
-        console.log('login 77')
+        // console.log('login 77')
         // End the request
         req.end()
 
-    }).catch(e => console.log('Catched error ' + e))
+    }).catch(e => console.log('% Catched error ' + e))
 }
 
 export default { send_request }
