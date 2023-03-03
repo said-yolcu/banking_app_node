@@ -1,6 +1,6 @@
 # banking_app_node
 
-This is the front-end part of my banking app project. The back-end part is implemented with Golang in banking_app repository. You can check it out here: https://github.com/said-yolcu/go_banking_app .
+This is the front-end part of my banking app project. The back-end part is implemented with Golang in banking_app repository. You can check it out here: https://github.com/said-yolcu/go_banking_app_2 .
 
 1. Requester files
     Each requester file has a single function: send_request. And each of these send_request files has the same form. 
