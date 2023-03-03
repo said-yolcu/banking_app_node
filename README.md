@@ -11,3 +11,8 @@ This is the front-end part of my banking app project. The back-end part is imple
 
 2. main.js
     First, registration_page() function is called. This function prompts the user to choose a service. Then according to the service chosen, a switch block directs the user to the according requester function. In a promise-then-catch block, the response is evaluated and user is prompted to choose another service. 
+
+
+# How to Run
+
+Please refer to this project's twin here -> https://github.com/said-yolcu/go_banking_app_2 
